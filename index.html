@@ -3,44 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio IPA Digital</title>
+    <title>Portofolio IPA Digital SMA</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- CSS STYLING (TAMPILAN) --- */
         :root {
             --primary: #6366f1;
             --secondary: #a855f7;
             --bg: #0f172a;
             --card-bg: #1e293b;
             --text: #f8fafc;
+            --accent: #22d3ee;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg); 
             color: var(--text);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         /* Loading Screen */
         #loader {
-            position: fixed; inset: 0; z-index: 100; background: var(--bg);
-            display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;
+            position: fixed; inset: 0; z-index: 999; background: var(--bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            transition: opacity 0.6s ease;
         }
         .spinner {
-            width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.1);
+            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1);
             border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;
+            margin-bottom: 15px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Running Text */
+        /* Running Text (Marquee) */
         .marquee-container {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
-            padding: 8px 0; overflow: hidden; white-space: nowrap; position: sticky; top: 0; z-index: 90;
+            padding: 10px 0; overflow: hidden; white-space: nowrap; 
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .marquee {
-            display: inline-block; animation: marquee 20s linear infinite;
-            font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+            display: inline-block; animation: marquee 25s linear infinite;
+            font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;
         }
-        @keyframes marquee { 0% { transform: translateX(100%); }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
+        header { padding: 60px 20px 20px; text-align: center; }
+        h1 { 
+            font-size: 3rem; margin-bottom: 10px; font-weight: 800; 
+            background: linear-gradient(to right, #fff, var(--accent)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        .subtitle { opacity: 0.6; font-size: 1.1rem; margin-bottom: 40px; }
+
+        /* Filter
