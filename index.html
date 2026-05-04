@@ -3,111 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPA Portfolio | SMA Digital Archive</title>
+    <title>IPA Portfolio SMA</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #f0fdf4; 
-            --primary: #22c55e; 
-            --secondary: #3b82f6;
-            --text: #166534; 
-            --card: #ffffff;
-        }
-
+        :root { --bg: #f0fdf4; --primary: #22c55e; --text: #166534; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
-            overflow-x: hidden; 
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); }
 
-        /* --- LOADING SCREEN CAT --- */
+        /* LOADING SCREEN FIXED */
         #loader {
             position: fixed; inset: 0; z-index: 999; background: var(--bg);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
+            opacity: 1; transition: opacity 0.5s ease;
         }
-        #loader img {
-            width: 180px; 
-            border-radius: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .loading-text { 
-            font-weight: 800; 
-            letter-spacing: 1px; 
-            color: var(--primary); 
-            text-align: center;
-        }
+        #loader img { width: 200px; border-radius: 20px; margin-bottom: 20px; }
+        .loading-text { font-weight: 800; color: var(--primary); animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
 
-        /* --- RUNNING TEXT --- */
-        .marquee-container {
-            background: var(--primary); color: white; padding: 12px 0;
-            overflow: hidden; white-space: nowrap; font-weight: 700;
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .marquee { display: inline-block; animation: marquee 20s linear infinite; }
+        /* NAVBAR & MARQUEE */
+        .marquee-container { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+        .marquee { display: inline-block; animation: marquee 20s linear infinite; font-weight: 700; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        header { 
-            background: white; 
-            padding: 50px 20px; 
-            text-align: center; 
-            border-bottom-left-radius: 60px; 
-            border-bottom-right-radius: 60px; 
-        }
-        h1 { font-size: 2.8rem; font-weight: 800; color: #15803d; margin-bottom: 10px; }
-        
-        /* Filter Controls */
-        .controls { 
-            display: flex; 
-            justify-content: center; 
-            gap: 15px; 
-            flex-wrap: wrap; 
-            margin-top: 30px; 
-        }
-        select { 
-            padding: 12px 25px; 
-            border-radius: 18px; 
-            border: 2px solid #dcfce7; 
-            font-weight: 600; 
-            cursor: pointer; 
-            outline: none; 
-            transition: 0.3s;
-            background: white;
-            color: var(--text);
-        }
-        select:hover { border-color: var(--primary); transform: scale(1.05); }
+        header { background: white; padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h1 { color: #15803d; font-size: 2.2rem; margin-bottom: 15px; }
 
-        /* --- GRID TUGAS --- */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 30px; 
-            padding: 40px 20px; 
-            max-width: 1300px; 
-            margin: 0 auto; 
+        .controls { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        select { padding: 12px; border-radius: 12px; border: 2px solid #dcfce7; font-weight: 600; cursor: pointer; outline: none; }
+
+        /* GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 30px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 25px; padding: 15px; border: 1px solid #dcfce7; transition: 0.3s; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .img-box { width: 100%; height: 200px; border-radius: 20px; overflow: hidden; margin-bottom: 15px; background: #e2e8f0; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .tag-group { display: flex; gap: 5px; margin-bottom: 10px; }
+        .tag { font-size: 10px; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; }
+        .t-kls { background: #dcfce7; color: #166534; }
+        .t-mpl { background: #dbeafe; color: #1e40af; }
+        .t-sem { background: #f3e8ff; color: #6b21a8; }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnh0NXJ6M2J4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/GeimqsH0TLDt4tScGw/giphy.gif" alt="Cat Dance">
+        <p class="loading-text">NYARI TUGAS KAMU CIK...</p>
+    </div>
+
+    <div class="marquee-container">
+        <div class="marquee" id="runText">PORTFOLIO IPA DIGITAL SMA KELAS 10-12 • REFRESH JIKA DATA BELUM UPDATE • </div>
+    </div>
+
+    <header>
+        <h1>Science Path 🧬</h1>
+        <div class="controls">
+            <select id="selKls"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
+            <select id="selMpl"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
+            <select id="selSem"><option value="all">Semua Semester</option><option value="1">Semester 1</option><option value="2">Semester 2</option></select>
+        </div>
+    </header>
+
+    <main class="grid" id="mainGrid"></main>
+
+    <script>
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv';
+        let db = [];
+
+        // Fungsi Paksa Hilangkan Loader (Emergency)
+        const forceHideLoader = setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+        }, 6000); // Jika 6 detik data ga muncul, paksa buka websitenya
+
+        async function loadData() {
+            try {
+                const res = await fetch(CSV_URL);
+                const data = await res.text();
+                const lines = data.split('\n').filter(l => l.trim() !== "");
+
+                db = lines.slice(1).map(row => {
+                    const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if(c.length < 5) return null;
+                    return {
+                        k: c[0]?.replace(/"/g, '').trim(),
+                        m: c[1]?.replace(/"/g, '').trim(),
+                        s: c[2]?.replace(/"/g, '').trim(),
+                        j: c[3]?.replace(/"/g, '').trim(),
+                        i: c[4]?.replace(/"/g, '').trim(),
+                        d: c[5]?.replace(/"/g, '').trim() || "Tugas IPA"
+                    };
+                }).filter(x => x !== null);
+
+                document.getElementById('runText').innerText += ` BERHASIL TERHUBUNG (${db.length} DATA)`;
+                render(db);
+                
+                // Berhasil load? Hilangkan loader
+                clearTimeout(forceHideLoader);
+                setTimeout(() => {
+                    document.getElementById('loader').style.opacity = '0';
+                    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+                }, 1500);
+
+            } catch (e) {
+                console.error("Gagal load:", e);
+                document.getElementById('loader').innerHTML = "<p>Gagal ambil data Sheets. Cek Publish to Web kamu!</p>";
+            }
         }
-        .card { 
-            background: var(--card); 
-            border-radius: 30px; 
-            padding: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
-            transition: 0.4s; 
-            border: 1px solid rgba(34, 197, 94, 0.1); 
+
+        function render(data) {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = data.map(v => `
+                <div class="card">
+                    <div class="img-box"><img src="${v.i}" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Rusak'"></div>
+                    <div class="tag-group">
+                        <span class="tag t-kls">Kls ${v.k}</span>
+                        <span class="tag t-mpl">${v.m}</span>
+                        <span class="tag t-sem">Sem ${v.s}</span>
+                    </div>
+                    <h3>${v.j}</h3>
+                    <p style="font-size: 13px; opacity: 0.7;">${v.d}</p>
+                </div>
+            `).join('');
         }
-        .card:hover { transform: translateY(-12px); box-shadow: 0 25px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
-        
-        .img-box { 
-            width: 100%; 
-            height: 220px; 
-            border-radius: 22px; 
-            overflow: hidden; 
-            margin-bottom: 18px; 
-            background: #eee;
+
+        function handleFilter() {
+            const k = document.getElementById('selKls').value;
+            const m = document.getElementById('selMpl').value;
+            const s = document.getElementById('selSem').value;
+
+            const f = db.filter(x => 
+                (k === 'all' || x.k == k) &&
+                (m === 'all' || x.m.toLowerCase() === m.toLowerCase()) &&
+                (s === 'all' || x.s == s)
+            );
+            render(f);
         }
+
+        document.querySelectorAll('select').forEach(sel => sel.addEventListener('change', handleFilter));
+        window.onload = loadData;
+    </script>
+</body>
+</html>
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .tag-group { display: flex; gap: 8px; margin-bottom: 15px; }
