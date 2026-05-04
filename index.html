@@ -10,31 +10,31 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); }
 
-        /* LOADING SCREEN - VERSI AUTO-KILL */
+        /* LOADING SCREEN BARU - LEBIH RINGAN */
         #loader {
             position: fixed; inset: 0; z-index: 9999; background: var(--bg);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.4s ease;
         }
-        .spinner {
-            width: 40px; height: 40px; border: 4px solid #dcfce7;
-            border-top: 4px solid var(--primary); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 15px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .bar-container { width: 200px; height: 6px; background: #dcfce7; border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        .bar-progress { width: 0%; height: 100%; background: var(--primary); animation: load 3s forwards; }
+        @keyframes load { to { width: 100%; } }
 
-        /* UI */
+        /* UI COMPONENTS */
         .marquee-container { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: 700; }
         .marquee { display: inline-block; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         header { background: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .controls { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
-        select { padding: 10px; border-radius: 10px; border: 2px solid #dcfce7; font-weight: 600; cursor: pointer; }
+        select { padding: 10px; border-radius: 10px; border: 2px solid #dcfce7; font-weight: 600; outline: none; }
 
+        /* GRID & CARDS */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 20px; padding: 15px; border: 1px solid #dcfce7; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .img-box { width: 100%; height: 180px; border-radius: 15px; overflow: hidden; margin-bottom: 12px; background: #eee; }
+        .card { background: white; border-radius: 20px; padding: 15px; border: 1px solid #dcfce7; transition: 0.3s; animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .img-box { width: 100%; height: 180px; border-radius: 15px; overflow: hidden; background: #e2e8f0; margin-bottom: 12px; }
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
         
         .tag { font-size: 10px; padding: 4px 8px; border-radius: 6px; font-weight: 800; text-transform: uppercase; margin-right: 4px; }
@@ -45,19 +45,20 @@
 <body>
 
     <div id="loader">
-        <div class="spinner"></div>
-        <p>MEMBUKA DATABASE...</p>
+        <h2 style="color: var(--primary); font-weight: 800;">Science Path</h2>
+        <div class="bar-container"><div class="bar-progress"></div></div>
+        <p style="margin-top: 10px; font-size: 12px; font-weight: 600;">MENYIAPKAN DATA...</p>
     </div>
 
     <div class="marquee-container">
-        <div class="marquee">PORTFOLIO IPA DIGITAL • REFRESH JIKA DATA BELUM UPDATE • </div>
+        <div class="marquee" id="infoText">HUBUNGKAN KE DATABASE... • PORTFOLIO IPA DIGITAL SMA • </div>
     </div>
 
     <header>
-        <h2 style="color: #15803d;">Science Path 🧬</h2>
+        <h1 style="color: #15803d;">Science Journey 🧬</h1>
         <div class="controls">
-            <select id="sKls"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
-            <select id="sMpl"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
+            <select id="sKls" onchange="filter()"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
+            <select id="sMpl" onchange="filter()"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
         </div>
     </header>
 
@@ -67,43 +68,82 @@
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv';
         let db = [];
 
-        // --- SISTEM AUTO-KILL LOADING (PASTI MATI) ---
-        function killLoader() {
-            const ldr = document.getElementById('loader');
-            if(ldr) {
-                ldr.style.opacity = '0';
-                setTimeout(() => { ldr.style.display = 'none'; }, 500);
+        // Fungsi Penutup Loading - Dibuat sangat solid
+        function matikanLoader() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
             }
         }
-        // Paksa mati dalam 3 detik, apapun yang terjadi
-        setTimeout(killLoader, 3000); 
 
-        async function init() {
+        async function ambilData() {
             try {
+                // Timer darurat: Jika 4 detik tetap macet, paksa matikan loading
+                const emergencyTimer = setTimeout(matikanLoader, 4000);
+
                 const res = await fetch(CSV_URL);
-                if(!res.ok) throw new Error();
                 const text = await res.text();
                 const rows = text.split('\n').slice(1);
 
                 db = rows.map(r => {
                     const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if(c.length < 5) return null;
+                    if (c.length < 5) return null;
                     return {
                         k: c[0]?.replace(/"/g, '').trim(),
                         m: c[1]?.replace(/"/g, '').trim(),
-                        s: c[2]?.replace(/"/g, '').trim(),
                         j: c[3]?.replace(/"/g, '').trim(),
                         i: c[4]?.replace(/"/g, '').trim(),
                         d: c[5]?.replace(/"/g, '').trim() || ""
                     };
                 }).filter(x => x !== null);
 
-                render(db);
-                killLoader(); // Mati setelah data masuk
+                if (db.length > 0) {
+                    clearTimeout(emergencyTimer);
+                    document.getElementById('infoText').innerText = `KONEKSI BERHASIL! DITEMUKAN ${db.length} DATA. • `;
+                    render(db);
+                    matikanLoader();
+                }
+
             } catch (e) {
-                console.log("Fetch Error");
-                killLoader(); // Mati meskipun error
+                console.error("Gagal load:", e);
+                matikanLoader();
             }
+        }
+
+        function render(data) {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = data.map(v => `
+                <div class="card">
+                    <div class="img-box"><img src="${v.i}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Gagal+Dimuat'"></div>
+                    <div>
+                        <span class="tag t-kls">Kls ${v.k}</span>
+                        <span class="tag t-mpl">${v.m}</span>
+                    </div>
+                    <h3 style="margin: 10px 0 5px 0; font-size: 1.1rem;">${v.j}</h3>
+                    <p style="font-size: 13px; color: #64748b; line-height: 1.4;">${v.d}</p>
+                </div>
+            `).join('');
+        }
+
+        function filter() {
+            const k = document.getElementById('sKls').value;
+            const m = document.getElementById('sMpl').value;
+            const filtered = db.filter(x => 
+                (k === 'all' || x.k == k) && 
+                (m === 'all' || x.m.toLowerCase() === m.toLowerCase())
+            );
+            render(filtered);
+        }
+
+        // Jalankan saat browser siap
+        document.addEventListener('DOMContentLoaded', ambilData);
+
+        // Admin Reset
+        window.forceClose = () => matikanLoader();
+    </script>
+</body>
+</html>
         }
 
         function render(data) {
