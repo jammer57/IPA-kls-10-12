@@ -3,111 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPA Portfolio - Bright Edition</title>
+    <title>IPA Portfolio | SMA Digital Archive</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f0fdf4; /* Hijau sangat muda (mint) */
-            --header-bg: #ffffff;
-            --primary: #22c55e; /* Hijau cerah */
-            --secondary: #3b82f6; /* Biru cerah */
-            --accent: #a855f7; /* Ungu pastel */
-            --text: #166534; /* Hijau tua untuk teks */
+            --bg: #f0fdf4; 
+            --primary: #22c55e; 
+            --secondary: #3b82f6;
+            --text: #166534; 
             --card: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg); 
-            color: var(--text);
-            overflow-x: hidden;
+            color: var(--text); 
+            overflow-x: hidden; 
         }
 
-        /* Loading Screen */
+        /* --- LOADING SCREEN CAT --- */
         #loader {
             position: fixed; inset: 0; z-index: 999; background: var(--bg);
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
         }
-        .spinner {
-            width: 40px; height: 40px; border: 4px solid #dcfce7;
-            border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;
+        #loader img {
+            width: 180px; 
+            border-radius: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { 
+            font-weight: 800; 
+            letter-spacing: 1px; 
+            color: var(--primary); 
+            text-align: center;
+        }
 
-        /* Marquee / Running Text */
+        /* --- RUNNING TEXT --- */
         .marquee-container {
-            background: #22c55e;
-            color: white;
-            padding: 12px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            font-weight: 700;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            background: var(--primary); color: white; padding: 12px 0;
+            overflow: hidden; white-space: nowrap; font-weight: 700;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .marquee {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
+        .marquee { display: inline-block; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        header {
-            background: var(--header-bg);
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        header { 
+            background: white; 
+            padding: 50px 20px; 
+            text-align: center; 
+            border-bottom-left-radius: 60px; 
+            border-bottom-right-radius: 60px; 
         }
-
-        h1 { font-size: 2.5rem; font-weight: 800; color: #15803d; margin-bottom: 10px; }
-        .subtitle { opacity: 0.7; margin-bottom: 30px; font-weight: 600; }
-
-        /* Filter Dropdown */
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+        h1 { font-size: 2.8rem; font-weight: 800; color: #15803d; margin-bottom: 10px; }
+        
+        /* Filter Controls */
+        .controls { 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+            margin-top: 30px; 
         }
-
-        select {
-            padding: 12px 20px;
-            border-radius: 15px;
-            border: 2px solid #dcfce7;
+        select { 
+            padding: 12px 25px; 
+            border-radius: 18px; 
+            border: 2px solid #dcfce7; 
+            font-weight: 600; 
+            cursor: pointer; 
+            outline: none; 
+            transition: 0.3s;
             background: white;
             color: var(--text);
-            font-family: inherit;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-            transition: 0.3s;
+        }
+        select:hover { border-color: var(--primary); transform: scale(1.05); }
+
+        /* --- GRID TUGAS --- */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+            padding: 40px 20px; 
+            max-width: 1300px; 
+            margin: 0 auto; 
+        }
+        .card { 
+            background: var(--card); 
+            border-radius: 30px; 
+            padding: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            transition: 0.4s; 
+            border: 1px solid rgba(34, 197, 94, 0.1); 
+        }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 25px 35px rgba(0,0,0,0.08); border-color: var(--primary); }
+        
+        .img-box { 
+            width: 100%; 
+            height: 220px; 
+            border-radius: 22px; 
+            overflow: hidden; 
+            margin-bottom: 18px; 
+            background: #eee;
+        }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .tag-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        .tag { font-size: 10px; font-weight: 800; padding: 6px 14px; border-radius: 12px; text-transform: uppercase; }
+        .tag-kls { background: #dcfce7; color: #166534; }
+        .tag-mapel { background: #dbeafe; color: #1e40af; }
+        .tag-sem { background: #f3e8ff; color: #6b21a8; }
+
+        .card h3 { font-size: 1.3rem; margin-bottom: 10px; color: #1e293b; }
+        .card p { font-size: 0.95rem; color: #64748b; line-height: 1.6; }
+
+        @media (max-width: 600px) { h1 { font-size: 2rem; } .controls { flex-direction: column; padding: 0 30px; } }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <img src="https://media.tenor.com/p3sTjcWx9C2AAAAC/cat-dance.gif" alt="Cat Dance">
+        <p class="loading-text">SABAR YA... <br> LAGI NYIAPIN KOLEKSI TUGAS KAMU</p>
+    </div>
+
+    <div class="marquee-container">
+        <div class="marquee" id="runText">MENGHUBUNGKAN KE CLOUD DATABASE... • IPA SMA PORTFOLIO KELAS 10-12 • REFRESH UNTUK UPDATE •</div>
+    </div>
+
+    <header>
+        <h1>Science Journey</h1>
+        <p style="font-weight: 600; opacity: 0.7;">Kumpulan Tugas & Projek IPA Terkeren</p>
+        
+        <div class="controls">
+            <select id="selKelas">
+                <option value="all">Semua Kelas</option>
+                <option value="10">Kelas 10</option>
+                <option value="11">Kelas 11</option>
+                <option value="12">Kelas 12</option>
+            </select>
+            <select id="selMapel">
+                <option value="all">Semua Mapel</option>
+                <option value="Fisika">Fisika</option>
+                <option value="Kimia">Kimia</option>
+                <option value="Biologi">Biologi</option>
+            </select>
+            <select id="selSem">
+                <option value="all">Semua Semester</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="grid" id="mainGrid"></main>
+
+    <script>
+        // LINK CSV DARI GOOGLE SHEETS KAMU
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv';
+        
+        let localDb = [];
+
+        async function init() {
+            try {
+                const res = await fetch(CSV_URL);
+                const raw = await res.text();
+                const rows = raw.split('\n').slice(1);
+
+                localDb = rows.map(r => {
+                    // Penanganan koma dalam CSV agar tidak error jika ada koma di deskripsi
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if(c.length < 5) return null;
+                    return { 
+                        kls: c[0]?.replace(/"/g, '').trim(), 
+                        mpl: c[1]?.replace(/"/g, '').trim(), 
+                        sem: c[2]?.replace(/"/g, '').trim(), 
+                        judul: c[3]?.replace(/"/g, '').trim(), 
+                        img: c[4]?.replace(/"/g, '').trim(), 
+                        desc: c[5]?.replace(/"/g, '').trim() || "Projek IPA" 
+                    };
+                }).filter(x => x !== null);
+
+                document.getElementById('runText').innerText = `KONEKSI BERHASIL! • TOTAL ${localDb.length} TUGAS TERSEDIA • REFRESH HALAMAN JIKA DATA BELUM UPDATE • `;
+                render(localDb);
+            } catch (e) { 
+                document.getElementById('runText').innerText = "KONEKSI GAGAL! PERIKSA PUBLISH TO WEB DI SHEETS KAMU.";
+            } finally {
+                // Biar kucing joget dulu sebentar
+                setTimeout(() => {
+                    const loader = document.getElementById('loader');
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 800);
+                }, 2500);
+            }
         }
 
-        select:hover { border-color: var(--primary); background: #f0fdf4; }
-
-        /* Grid & Cards */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+        function render(data) {
+            const grid = document.getElementById('mainGrid');
+            if(data.length === 0) {
+                grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Belum ada data untuk filter ini.</p>";
+                return;
+            }
+            grid.innerHTML = data.map(i => `
+                <div class="card">
+                    <div class="img-box"><img src="${i.img}" onerror="this.src='https://via.placeholder.com/400x300?text=Link+Foto+Rusak'"></div>
+                    <div class="tag-group">
+                        <span class="tag tag-kls">Kls ${i.kls}</span>
+                        <span class="tag tag-mapel">${i.mpl}</span>
+                        <span class="tag tag-sem">Sem ${i.sem}</span>
+                    </div>
+                    <h3>${i.judul}</h3>
+                    <p>${i.desc}</p>
+                </div>
+            `).join('');
         }
 
-        .card {
-            background: var(--card);
-            border-radius: 25px;
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            transition: 0.3s;
-            border: 1px solid #f0fdf4;
+        function runFilter() {
+            const k = document.getElementById('selKelas').value;
+            const m = document.getElementById('selMapel').value;
+            const s = document.getElementById('selSem').value;
+
+            const filtered = localDb.filter(d => 
+                (k === 'all' || d.kls == k) &&
+                (m === 'all' || d.mpl.toLowerCase() === m.toLowerCase()) &&
+                (s === 'all' || d.sem == s)
+            );
+            render(filtered);
         }
 
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        // --- ADMIN PANEL CONSOLE ---
+        window.adminMsg = (token, text) => {
+            if(token === "admin123") {
+                document.getElementById('runText').innerText = text + " • " + text;
+                return "Pesan admin berhasil dipasang!";
+            }
+            return "Akses ditolak!";
+        }
 
+        document.querySelectorAll('select').forEach(s => s.addEventListener('change', runFilter));
+        window.onload = init;
+    </script>
+</body>
+</html>
         .img-box {
             width: 100%;
             height: 200px;
