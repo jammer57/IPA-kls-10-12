@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio IPA Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed; inset: 0; z-index: 100; background: var(--bg);
+            display: flex; justify-content: center; align-items: center; transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 45px; height: 45px; border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Running Text */
+        .marquee-container {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 8px 0; overflow: hidden; white-space: nowrap; position: sticky; top: 0; z-index: 90;
+        }
+        .marquee {
+            display: inline-block; animation: marquee 20s linear infinite;
+            font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        @keyframes marquee { 0% { transform: translateX(100%); }
 
