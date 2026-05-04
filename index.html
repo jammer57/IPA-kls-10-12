@@ -6,61 +6,95 @@
     <title>IPA Portfolio SMA</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #f0fdf4; --primary: #22c55e; --text: #166534; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); }
+        :root { 
+            --bg: #f0fdf4; 
+            --primary: #22c55e; 
+            --text: #166534; 
+            --card: #ffffff;
+        }
 
-        /* LOADING SCREEN - DIPERBAIKI */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            min-height: 100vh;
+        }
+
+        /* --- LOADING SPINNER (MURNI CSS) --- */
         #loader {
             position: fixed; inset: 0; z-index: 9999; background: var(--bg);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            transition: all 0.4s ease;
         }
-        #loader img { width: 180px; border-radius: 20px; margin-bottom: 20px; border: 5px solid white; }
-        
-        /* Tombol Darurat kalau stuck */
-        #emergency-btn {
-            margin-top: 20px; padding: 10px 20px; background: white; border: 2px solid var(--primary);
-            color: var(--primary); border-radius: 10px; font-weight: 800; cursor: pointer;
-            display: none; /* Muncul otomatis setelah 5 detik */
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #dcfce7;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- UI COMPONENTS --- */
         .marquee-container { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: 700; }
         .marquee { display: inline-block; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        header { background: white; padding: 30px 20px; text-align: center; border-bottom: 2px solid #dcfce7; }
-        h1 { font-size: 2rem; margin-bottom: 15px; }
+        header { background: white; padding: 40px 20px; text-align: center; border-bottom: 2px solid #dcfce7; border-radius: 0 0 40px 40px; }
+        h1 { font-size: 2.2rem; margin-bottom: 20px; color: #15803d; }
 
-        .controls { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-        select { padding: 10px; border-radius: 10px; border: 2px solid #dcfce7; font-family: inherit; font-weight: 600; }
+        .controls { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        select { 
+            padding: 12px 15px; border-radius: 12px; border: 2px solid #dcfce7; 
+            font-family: inherit; font-weight: 600; cursor: pointer; outline: none; background: white;
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 20px; padding: 15px; border: 1px solid #dcfce7; }
-        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
-        .tag { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; margin-right: 4px; text-transform: uppercase; }
+        /* --- GRID SYSTEM --- */
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; padding: 30px 20px; max-width: 1200px; margin: 0 auto; 
+        }
+        .card { 
+            background: white; border-radius: 25px; padding: 20px; 
+            border: 1px solid #dcfce7; transition: 0.3s; 
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .card img { 
+            width: 100%; height: 200px; object-fit: cover; 
+            border-radius: 20px; margin-bottom: 15px; background: #f1f5f9;
+        }
+
+        .tag-group { display: flex; gap: 5px; margin-bottom: 12px; }
+        .tag { font-size: 10px; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; }
         .t-kls { background: #dcfce7; color: #166534; }
         .t-mpl { background: #dbeafe; color: #1e40af; }
+        .t-sem { background: #f3e8ff; color: #6b21a8; }
+
+        .card h3 { font-size: 1.2rem; margin-bottom: 8px; color: #1e293b; }
+        .card p { font-size: 0.9rem; color: #64748b; line-height: 1.5; }
+
+        @media (max-width: 600px) { h1 { font-size: 1.8rem; } .controls { flex-direction: column; } }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <img src="https://media.tenor.com/p3sTjcWx9C2AAAAC/cat-dance.gif" alt="Cat Dance">
-        <p style="font-weight: 800;">LAGI NYIAPIN DATA...</p>
-        <button id="emergency-btn" onclick="tutupLoader()">Tutup Loading Manual</button>
+        <div class="spinner"></div>
+        <p style="font-weight: 800; color: var(--primary);">MENGAMBIL DATA...</p>
     </div>
 
     <div class="marquee-container">
-        <div class="marquee" id="runText">PORTFOLIO IPA DIGITAL • REFRESH UNTUK UPDATE DATA TERBARU • </div>
+        <div class="marquee" id="runText">IPA PORTFOLIO SMA • KELAS 10, 11, 12 • UPDATE OTOMATIS DARI GOOGLE SHEETS • </div>
     </div>
 
     <header>
-        <h1>Science Path 🧬</h1>
+        <h1>Science Journey 🧬</h1>
         <div class="controls">
             <select id="sKls"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
             <select id="sMpl"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
-            <select id="sSem"><option value="all">Semua Semester</option><option value="1">Sem 1</option><option value="2">Sem 2</option></select>
+            <select id="sSem"><option value="all">Semua Semester</option><option value="1">Semester 1</option><option value="2">Semester 2</option></select>
         </div>
     </header>
 
@@ -68,46 +102,73 @@
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv';
-        let database = [];
+        let db = [];
 
-        // Fungsi sakti buat nutup loader
-        function tutupLoader() {
+        function hideLoader() {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
-            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
         }
-
-        // Tampilkan tombol darurat setelah 5 detik kalau masih stuck
-        setTimeout(() => {
-            document.getElementById('emergency-btn').style.display = 'block';
-        }, 5000);
 
         async function init() {
             try {
                 const res = await fetch(CSV_URL);
                 const text = await res.text();
-                const rows = text.split('\n').slice(1);
+                const rows = text.split('\n').filter(r => r.trim() !== "").slice(1);
 
-                database = rows.map(r => {
+                db = rows.map(r => {
                     const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if(c.length < 5) return null;
-                    return { k: c[0]?.trim(), m: c[1]?.trim(), s: c[2]?.trim(), j: c[3]?.trim(), i: c[4]?.trim(), d: c[5]?.trim() };
+                    return {
+                        k: c[0]?.replace(/"/g, '').trim(),
+                        m: c[1]?.replace(/"/g, '').trim(),
+                        s: c[2]?.replace(/"/g, '').trim(),
+                        j: c[3]?.replace(/"/g, '').trim(),
+                        i: c[4]?.replace(/"/g, '').trim(),
+                        d: c[5]?.replace(/"/g, '').trim() || ""
+                    };
                 }).filter(x => x !== null);
 
-                render(database);
-                document.getElementById('runText').innerText += ` BERHASIL LOAD ${database.length} DATA.`;
-                
-                // Jika data berhasil masuk, langsung tutup
-                tutupLoader();
+                document.getElementById('runText').innerText += ` KONEKSI BERHASIL: ${db.length} DATA DITEMUKAN.`;
+                render(db);
+                hideLoader(); // Tutup setelah sukses
 
             } catch (e) {
                 console.error(e);
-                // Kalau error pun, loading harus hilang biar kelihatan pesan errornya
-                tutupLoader();
+                document.getElementById('mainGrid').innerHTML = "<p>Gagal mengambil data. Pastikan Google Sheets sudah di-Publish to Web.</p>";
+                hideLoader(); // Tutup meski error agar pesan terlihat
             }
         }
 
         function render(data) {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = data.map(v => `
+                <div class="card">
+                    <img src="${v.i}" onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Bermasalah'">
+                    <div class="tag-group">
+                        <span class="tag t-kls">Kls ${v.k}</span>
+                        <span class="tag t-mpl">${v.m}</span>
+                        <span class="tag t-sem">Sem ${v.s}</span>
+                    </div>
+                    <h3>${v.j}</h3>
+                    <p>${v.d}</p>
+                </div>
+            `).join('');
+        }
+
+        function filter() {
+            const k = document.getElementById('sKls').value;
+            const m = document.getElementById('sMpl').value;
+            const s = document.getElementById('sSem').value;
+            const f = db.filter(x => (k === 'all' || x.k == k) && (m === 'all' || x.m.toLowerCase() === m.toLowerCase()) && (s === 'all' || x.s == s));
+            render(f);
+        }
+
+        document.querySelectorAll('select').forEach(s => s.addEventListener('change', filter));
+        window.onload = init;
+    </script>
+</body>
+</html>
             const grid = document.getElementById('mainGrid');
             grid.innerHTML = data.map(v => `
                 <div class="card">
