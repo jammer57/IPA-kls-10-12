@@ -10,58 +10,57 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text); }
 
-        /* LOADING SCREEN FIXED */
+        /* LOADING SCREEN - DIPERBAIKI */
         #loader {
-            position: fixed; inset: 0; z-index: 999; background: var(--bg);
+            position: fixed; inset: 0; z-index: 9999; background: var(--bg);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 1; transition: opacity 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s;
         }
-        #loader img { width: 200px; border-radius: 20px; margin-bottom: 20px; }
-        .loading-text { font-weight: 800; color: var(--primary); animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.5; } }
+        #loader img { width: 180px; border-radius: 20px; margin-bottom: 20px; border: 5px solid white; }
+        
+        /* Tombol Darurat kalau stuck */
+        #emergency-btn {
+            margin-top: 20px; padding: 10px 20px; background: white; border: 2px solid var(--primary);
+            color: var(--primary); border-radius: 10px; font-weight: 800; cursor: pointer;
+            display: none; /* Muncul otomatis setelah 5 detik */
+        }
 
-        /* NAVBAR & MARQUEE */
-        .marquee-container { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; }
-        .marquee { display: inline-block; animation: marquee 20s linear infinite; font-weight: 700; }
+        .marquee-container { background: var(--primary); color: white; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: 700; }
+        .marquee { display: inline-block; animation: marquee 20s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        header { background: white; padding: 40px 20px; text-align: center; border-radius: 0 0 40px 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        h1 { color: #15803d; font-size: 2.2rem; margin-bottom: 15px; }
+        header { background: white; padding: 30px 20px; text-align: center; border-bottom: 2px solid #dcfce7; }
+        h1 { font-size: 2rem; margin-bottom: 15px; }
 
-        .controls { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        select { padding: 12px; border-radius: 12px; border: 2px solid #dcfce7; font-weight: 600; cursor: pointer; outline: none; }
+        .controls { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+        select { padding: 10px; border-radius: 10px; border: 2px solid #dcfce7; font-family: inherit; font-weight: 600; }
 
-        /* GRID */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 30px; max-width: 1200px; margin: 0 auto; }
-        .card { background: white; border-radius: 25px; padding: 15px; border: 1px solid #dcfce7; transition: 0.3s; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .img-box { width: 100%; height: 200px; border-radius: 20px; overflow: hidden; margin-bottom: 15px; background: #e2e8f0; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .tag-group { display: flex; gap: 5px; margin-bottom: 10px; }
-        .tag { font-size: 10px; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 20px; padding: 15px; border: 1px solid #dcfce7; }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
+        .tag { font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; margin-right: 4px; text-transform: uppercase; }
         .t-kls { background: #dcfce7; color: #166534; }
         .t-mpl { background: #dbeafe; color: #1e40af; }
-        .t-sem { background: #f3e8ff; color: #6b21a8; }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnh0NXJ6M2J4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/GeimqsH0TLDt4tScGw/giphy.gif" alt="Cat Dance">
-        <p class="loading-text">NYARI TUGAS KAMU CIK...</p>
+        <img src="https://media.tenor.com/p3sTjcWx9C2AAAAC/cat-dance.gif" alt="Cat Dance">
+        <p style="font-weight: 800;">LAGI NYIAPIN DATA...</p>
+        <button id="emergency-btn" onclick="tutupLoader()">Tutup Loading Manual</button>
     </div>
 
     <div class="marquee-container">
-        <div class="marquee" id="runText">PORTFOLIO IPA DIGITAL SMA KELAS 10-12 • REFRESH JIKA DATA BELUM UPDATE • </div>
+        <div class="marquee" id="runText">PORTFOLIO IPA DIGITAL • REFRESH UNTUK UPDATE DATA TERBARU • </div>
     </div>
 
     <header>
         <h1>Science Path 🧬</h1>
         <div class="controls">
-            <select id="selKls"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
-            <select id="selMpl"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
-            <select id="selSem"><option value="all">Semua Semester</option><option value="1">Semester 1</option><option value="2">Semester 2</option></select>
+            <select id="sKls"><option value="all">Semua Kelas</option><option value="10">Kelas 10</option><option value="11">Kelas 11</option><option value="12">Kelas 12</option></select>
+            <select id="sMpl"><option value="all">Semua Mapel</option><option value="Fisika">Fisika</option><option value="Kimia">Kimia</option><option value="Biologi">Biologi</option></select>
+            <select id="sSem"><option value="all">Semua Semester</option><option value="1">Sem 1</option><option value="2">Sem 2</option></select>
         </div>
     </header>
 
@@ -69,45 +68,73 @@
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRyJ4VihwGxpbpxQfSDKMb5AiPVmY1-wFviOWyEjfsuljcLPXUypWMNVDakdmM-58m31gNBNydwGSEe/pub?output=csv';
-        let db = [];
+        let database = [];
 
-        // Fungsi Paksa Hilangkan Loader (Emergency)
-        const forceHideLoader = setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-        }, 6000); // Jika 6 detik data ga muncul, paksa buka websitenya
+        // Fungsi sakti buat nutup loader
+        function tutupLoader() {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+        }
 
-        async function loadData() {
+        // Tampilkan tombol darurat setelah 5 detik kalau masih stuck
+        setTimeout(() => {
+            document.getElementById('emergency-btn').style.display = 'block';
+        }, 5000);
+
+        async function init() {
             try {
                 const res = await fetch(CSV_URL);
-                const data = await res.text();
-                const lines = data.split('\n').filter(l => l.trim() !== "");
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
 
-                db = lines.slice(1).map(row => {
-                    const c = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                database = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if(c.length < 5) return null;
-                    return {
-                        k: c[0]?.replace(/"/g, '').trim(),
-                        m: c[1]?.replace(/"/g, '').trim(),
-                        s: c[2]?.replace(/"/g, '').trim(),
-                        j: c[3]?.replace(/"/g, '').trim(),
-                        i: c[4]?.replace(/"/g, '').trim(),
-                        d: c[5]?.replace(/"/g, '').trim() || "Tugas IPA"
-                    };
+                    return { k: c[0]?.trim(), m: c[1]?.trim(), s: c[2]?.trim(), j: c[3]?.trim(), i: c[4]?.trim(), d: c[5]?.trim() };
                 }).filter(x => x !== null);
 
-                document.getElementById('runText').innerText += ` BERHASIL TERHUBUNG (${db.length} DATA)`;
-                render(db);
+                render(database);
+                document.getElementById('runText').innerText += ` BERHASIL LOAD ${database.length} DATA.`;
                 
-                // Berhasil load? Hilangkan loader
-                clearTimeout(forceHideLoader);
-                setTimeout(() => {
-                    document.getElementById('loader').style.opacity = '0';
-                    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-                }, 1500);
+                // Jika data berhasil masuk, langsung tutup
+                tutupLoader();
 
             } catch (e) {
-                console.error("Gagal load:", e);
-                document.getElementById('loader').innerHTML = "<p>Gagal ambil data Sheets. Cek Publish to Web kamu!</p>";
+                console.error(e);
+                // Kalau error pun, loading harus hilang biar kelihatan pesan errornya
+                tutupLoader();
+            }
+        }
+
+        function render(data) {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = data.map(v => `
+                <div class="card">
+                    <img src="${v.i}" onerror="this.src='https://via.placeholder.com/300x200?text=Gambar+Error'">
+                    <div>
+                        <span class="tag t-kls">Kls ${v.k}</span>
+                        <span class="tag t-mpl">${v.m}</span>
+                    </div>
+                    <h3 style="margin: 10px 0 5px 0;">${v.j}</h3>
+                    <p style="font-size: 13px; opacity: 0.7;">${v.d || ''}</p>
+                </div>
+            `).join('');
+        }
+
+        function filter() {
+            const k = document.getElementById('sKls').value;
+            const m = document.getElementById('sMpl').value;
+            const s = document.getElementById('sSem').value;
+            const f = database.filter(x => (k === 'all' || x.k == k) && (m === 'all' || x.m.toLowerCase() === m.toLowerCase()) && (s === 'all' || x.s == s));
+            render(f);
+        }
+
+        document.querySelectorAll('select').forEach(s => s.addEventListener('change', filter));
+        window.onload = init;
+    </script>
+</body>
+</html>
             }
         }
 
